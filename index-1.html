@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101326">
+<title>O.M.A FaceLab — Prototype</title>
+<style>
+:root{--bg:#0b1020;--panel:#151d33;--muted:#9aa8c4;--cyan:#46e6e0;--pink:#ff5db1;--violet:#8d78ff;--white:#f7f8ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0%,#29204b 0,transparent 34%),radial-gradient(circle at 95% 15%,#123d4a 0,transparent 30%),var(--bg);color:var(--white);font-family:Inter,system-ui,Arial,sans-serif;min-height:100vh}
+.wrap{max-width:980px;margin:auto;padding:22px 16px 40px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}.brand{font-weight:850;letter-spacing:.08em;font-size:20px}.brand span{background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));background-clip:text;color:transparent}.tag{font-size:11px;color:#b7c5df;border:1px solid #34415f;border-radius:99px;padding:7px 10px}
+h1{font-size:clamp(27px,6vw,43px);line-height:1.08;margin:12px 0 8px}.grad{background:linear-gradient(90deg,var(--cyan),#a99aff,var(--pink));background-clip:text;color:transparent}.sub{color:var(--muted);margin:0 0 22px;line-height:1.5}
+.layout{display:grid;grid-template-columns:1.55fr 1fr;gap:16px}.card{background:linear-gradient(145deg,rgba(27,39,67,.96),rgba(17,24,43,.96));border:1px solid #34415d;border-radius:22px;padding:16px;box-shadow:0 18px 55px #0005}
+.preview{position:relative;overflow:hidden;aspect-ratio:4/3;background:linear-gradient(135deg,#20284a,#10182a 55%,#173b48);border-radius:16px;display:grid;place-items:center}
+.preview video{width:100%;height:100%;object-fit:cover;display:none}.placeholder{text-align:center;padding:20px;color:#dce7ff}.camicon{font-size:45px;margin-bottom:8px}.small{font-size:12px;color:var(--muted);line-height:1.45}
+.live{position:absolute;top:12px;left:12px;background:#101827cc;border:1px solid #52617e;border-radius:99px;padding:6px 9px;font-size:11px;display:flex;align-items:center;gap:6px}.dot{width:7px;height:7px;border-radius:50%;background:#7b8aa7}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+button{border:0;border-radius:12px;padding:12px 14px;font-weight:750;color:#101326;background:linear-gradient(100deg,var(--cyan),#a8f5df);cursor:pointer}
+button.secondary{background:#25324e;color:#e8edff;border:1px solid #465676}button:disabled{opacity:.45;cursor:not-allowed}
+.section{font-size:13px;font-weight:800;margin:2px 0 12px;color:#e9efff}.choice{display:flex;align-items:center;justify-content:space-between;padding:12px;border:1px solid #34415d;border-radius:13px;margin:8px 0;background:#111a2d}.choice b{font-size:13px}.choice span{font-size:11px;color:var(--muted)}.pill{font-size:10px;color:#bafbf2;background:#164447;padding:5px 8px;border-radius:99px}
+.note{margin-top:14px;padding:12px;border-radius:13px;background:#111a2d;color:#b7c5df;font-size:11px;line-height:1.5;border:1px solid #2b3955}.status{font-size:12px;color:var(--cyan);min-height:18px;margin-top:10px}
+footer{color:#7f8da9;font-size:11px;text-align:center;margin-top:20px}
+@media(max-width:700px){.layout{grid-template-columns:1fr}.wrap{padding:18px 13px 30px}.card{padding:13px}.top{margin-bottom:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><div class="brand"><span>O.M.A</span> FACELAB</div><div class="tag">EARLY PROTOTYPE · v0.1</div></header>
+  <h1>Your camera.<br><span class="grad">A new creative look.</span></h1>
+  <p class="sub">A mobile-friendly starting point for consent-based face effects and live camera experiments.</p>
+  <main class="layout">
+    <section class="card">
+      <div class="preview">
+        <video id="video" autoplay playsinline muted></video>
+        <div class="placeholder" id="placeholder"><div class="camicon">◉</div><b>Camera preview</b><p class="small">Allow camera access to see your live preview here.</p></div>
+        <div class="live"><i class="dot" id="dot"></i><span id="liveText">CAMERA OFF</span></div>
+      </div>
+      <div class="actions">
+        <button id="start">Start camera</button>
+        <button class="secondary" id="stop" disabled>Stop camera</button>
+      </div>
+      <div class="status" id="status" role="status">Ready when you are.</div>
+    </section>
+    <aside class="card">
+      <div class="section">EFFECT STUDIO</div>
+      <div class="choice"><div><b>Soft glow</b><br><span>Gentle colour treatment</span></div><div class="pill">PREVIEW UI</div></div>
+      <div class="choice"><div><b>Neon outline</b><br><span>Creative camera effect</span></div><div class="pill">PREVIEW UI</div></div>
+      <div class="choice"><div><b>Studio tone</b><br><span>Warm cinematic look</span></div><div class="pill">PREVIEW UI</div></div>
+      <div class="note"><b>What this version does:</b> opens a live camera preview when your browser permits it. The effect choices are interface placeholders; AI face transformation and video-call integration have not been implemented yet.</div>
+      <div class="note"><b>Privacy:</b> this prototype does not upload or store camera video. Use only your own face or a person's face with their clear permission, and label edited media as AI-generated.</div>
+    </aside>
+  </main>
+  <footer>O.M.A FaceLab · Prototype only · Camera access depends on browser permissions and secure-context support.</footer>
+</div>
+<script>
+const video=document.getElementById('video'), placeholder=document.getElementById('placeholder');
+const start=document.getElementById('start'), stop=document.getElementById('stop');
+const statusEl=document.getElementById('status'), liveText=document.getElementById('liveText'), dot=document.getElementById('dot');
+let stream=null;
+start.addEventListener('click',async()=>{
+  if(!navigator.mediaDevices?.getUserMedia){statusEl.textContent='This browser context cannot access the camera. Try opening the page in a secure browser context (HTTPS or localhost).';return;}
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+    video.srcObject=stream; video.style.display='block'; placeholder.style.display='none';
+    start.disabled=true;stop.disabled=false;liveText.textContent='CAMERA LIVE';dot.style.background='#46e6a1';
+    statusEl.textContent='Camera connected. This is a live preview, not yet an AI face swap.';
+  }catch(e){statusEl.textContent=e.name==='NotAllowedError'?'Camera permission was denied. Allow camera access in your browser settings and try again.':'Could not start camera: '+e.message;}
+});
+stop.addEventListener('click',()=>{
+  if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}
+  video.srcObject=null;video.style.display='none';placeholder.style.display='block';
+  start.disabled=false;stop.disabled=true;liveText.textContent='CAMERA OFF';dot.style.background='#7b8aa7';
+  statusEl.textContent='Camera stopped.';
+});
+window.addEventListener('pagehide',()=>{if(stream)stream.getTracks().forEach(t=>t.stop());});
+</script>
+</body>
+</html>
